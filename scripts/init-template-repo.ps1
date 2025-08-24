@@ -1,2 +1,5 @@
 # get parent directory name
-$repoFolderName = (Split-Path -Path $PSScriptRoot -Parent | Split-Path -Parent | Split-Path -Leaf)
+$repoFolder = (Split-Path -Path $PSScriptRoot -Parent)
+$repoFolderName = Split-Path -Path $repoFolder -Leaf
+
+# rename a file
