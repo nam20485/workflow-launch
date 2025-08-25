@@ -4,7 +4,8 @@ param(
     [string[]]$AppPlanDocs = @(),
     [switch]$TraceOnly,
     [string]$Owner = "nam20485",
-    [string]$OutputDir = "run-plans"
+    [string]$OutputDir = "run-plans",
+    [string]$CaseId
 )
 
 Set-StrictMode -Version Latest
@@ -108,8 +109,7 @@ foreach ($a in $resolvedAssignments) {
 $root = (Resolve-Path (Join-Path -Path $PSScriptRoot -ChildPath "..\")).Path
 $outDir = Join-Path $root $OutputDir
 New-DirectoryIfMissing -Path $outDir
-$stamp = Get-Date -Format "yyyyMMdd-HHmmss"
-$base  = "$($WorkflowName)-$($ContextRepoName)-$stamp"
+$base = if ($CaseId) { "$($WorkflowName)-$($ContextRepoName)-$CaseId" } else { "$($WorkflowName)-$($ContextRepoName)-" + (Get-Date -Format "yyyyMMdd-HHmmss") }
 
 $tracePath = Join-Path $outDir "$base.trace.json"
 $planPath  = Join-Path $outDir "$base.plan.json"
